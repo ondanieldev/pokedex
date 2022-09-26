@@ -18,9 +18,9 @@
   - [x] Code pattern
   - [x] Chakra
   - [x] Design pattern
-- [ ] Create core components
+- [x] Create core components
   - [x] Page container
-  - [ ] Table
+  - [x] Table
 - [ ] Create page
 - [ ] Setup API hook
 - [ ] List items
