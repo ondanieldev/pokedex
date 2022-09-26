@@ -4,6 +4,7 @@ import {
   Button,
   ButtonGroup,
   HStack,
+  Skeleton,
   Stack,
   Text,
   useBreakpointValue,
@@ -17,6 +18,7 @@ interface ITableProps extends ITableContentProps {
   limit: number;
   total: number;
   setPage: ISetState<number>;
+  isLoading?: boolean;
 }
 
 export const Table: React.FC<ITableProps> = ({
@@ -26,6 +28,7 @@ export const Table: React.FC<ITableProps> = ({
   columns,
   rows,
   setPage,
+  isLoading,
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -66,12 +69,14 @@ export const Table: React.FC<ITableProps> = ({
     <Stack spacing="5">
       <Box overflowX="auto">
         {isValid && (
-          <TableContent
-            columns={columns}
-            rows={rows}
-            limit={limit}
-            page={page}
-          />
+          <Skeleton isLoaded={!isLoading}>
+            <TableContent
+              columns={columns}
+              rows={rows}
+              limit={limit}
+              page={page}
+            />
+          </Skeleton>
         )}
       </Box>
 
@@ -94,12 +99,18 @@ export const Table: React.FC<ITableProps> = ({
                 type="button"
                 variant="secondary"
                 onClick={handlePrevious}
+                disabled={isLoading}
               >
                 Previous
               </Button>
             )}
             {isThereNext && (
-              <Button type="button" variant="secondary" onClick={handleNext}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleNext}
+                disabled={isLoading}
+              >
                 Next
               </Button>
             )}
