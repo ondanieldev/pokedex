@@ -16,6 +16,7 @@ export interface ITableContentProps extends TableProps {
   columns: ITableColumn[];
   limit: number;
   page: number;
+  paginationStrategy?: 'internal' | 'external';
 }
 
 export const TableContent = ({
@@ -23,15 +24,21 @@ export const TableContent = ({
   rows,
   limit,
   page,
+  paginationStrategy = 'external',
   ...rest
 }: ITableContentProps) => {
   const rowsView = useMemo<ITableRow[]>(() => {
-    const offset = (page - 1) * limit;
-    const rowsLength = rows.length - offset;
-    const length = Math.min(limit, rowsLength);
+    if (paginationStrategy === 'internal') {
+      const offset = (page - 1) * limit;
+      const rowsLength = rows.length - offset;
+      const length = Math.min(limit, rowsLength);
+      return Array.from({ length }, (_, i) => rows[offset + i]);
+    }
 
-    return Array.from({ length }, (_, i) => rows[offset + i]);
-  }, [limit, rows, page]);
+    const rowsLength = rows.length;
+    const length = Math.min(limit, rowsLength);
+    return Array.from({ length }, (_, i) => rows[i]);
+  }, [limit, rows, page, paginationStrategy]);
 
   const handleGetRowProp = useCallback(
     (row: ITableRow, column: ITableColumn): React.ReactNode => {
