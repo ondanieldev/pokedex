@@ -24,7 +24,7 @@
 - [x] Create page
 - [x] Setup API hook
 - [x] List items
-- [ ] Refresh table
+- [x] Refresh table
 - [ ] Table item collapse
 - [ ] Review
 - [ ] Wait for back-end

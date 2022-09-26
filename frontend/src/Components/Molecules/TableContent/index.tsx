@@ -11,7 +11,7 @@ export interface ITableColumn {
   render?(row: unknown): React.ReactNode;
 }
 
-export interface ITableContentProps extends TableProps {
+export interface ITableContentProps extends Omit<TableProps, 'title'> {
   rows: ITableRow[];
   columns: ITableColumn[];
   limit: number;

@@ -12,10 +12,9 @@ import {
 
 import ISetState from '../../../@Types/ISetState';
 import TableContent, { ITableContentProps } from '../TableContent';
+import TableHeader, { ITableHeaderProps } from '../TableHeader';
 
-interface ITableProps extends ITableContentProps {
-  page: number;
-  limit: number;
+interface ITableProps extends ITableHeaderProps, ITableContentProps {
   total: number;
   setPage: ISetState<number>;
   isLoading?: boolean;
@@ -29,6 +28,8 @@ export const Table: React.FC<ITableProps> = ({
   rows,
   setPage,
   isLoading,
+  title,
+  onRefresh,
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -67,6 +68,8 @@ export const Table: React.FC<ITableProps> = ({
 
   return (
     <Stack spacing="5">
+      <TableHeader title={title} onRefresh={onRefresh} />
+
       <Box overflowX="auto">
         {isValid && (
           <Skeleton isLoaded={!isLoading}>

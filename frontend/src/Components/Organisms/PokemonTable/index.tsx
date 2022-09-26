@@ -52,6 +52,7 @@ const PokemonTable: React.FC = () => {
 
   return (
     <Table
+      title="Pokémons"
       rows={rows}
       columns={columns}
       limit={limit}
@@ -59,6 +60,7 @@ const PokemonTable: React.FC = () => {
       setPage={setPage}
       total={total}
       isLoading={isLoading}
+      onRefresh={handleIndexPokemons}
     />
   );
 };
