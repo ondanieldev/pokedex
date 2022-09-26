@@ -19,7 +19,7 @@
   - [x] Chakra
   - [x] Design pattern
 - [ ] Create core components
-  - [ ] Page container
+  - [x] Page container
   - [ ] Table
 - [ ] Create page
 - [ ] Setup API hook
