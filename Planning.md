@@ -21,10 +21,11 @@
 - [x] Create core components
   - [x] Page container
   - [x] Table
-- [ ] Create page
-- [ ] Setup API hook
-- [ ] List items
+- [x] Create page
+- [x] Setup API hook
+- [x] List items
 - [ ] Refresh table
+- [ ] Table item collapse
 - [ ] Review
 - [ ] Wait for back-end
 - [ ] Remove item
