@@ -1,15 +1,8 @@
 import React from 'react';
-import logo from './logo.png';
+import Home from './Pages/Home';
 
 const App: React.FC = () => {
-  return (
-    <div>
-      <header>
-        <img src={logo} alt="logo" />
-        <p>Pokédex.</p>
-      </header>
-    </div>
-  );
+  return <Home />;
 };
 
 export default App;

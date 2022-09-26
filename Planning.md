@@ -16,8 +16,8 @@
 - [ ] Setup front-end
   - [x] React
   - [x] Code pattern
-  - [ ] Chakra
-  - [ ] Design pattern
+  - [x] Chakra
+  - [x] Design pattern
 - [ ] Create core components
   - [ ] Page container
   - [ ] Table
