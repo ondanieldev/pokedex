@@ -14,8 +14,9 @@
 - [x] Find a cool public API
   - [PokeAPI](https://pokeapi.co/docs/v2)
 - [ ] Setup front-end
-  - [ ] React
-  - [ ] Code pattern
+  - [x] React
+  - [x] Code pattern
+  - [ ] Chakra
   - [ ] Design pattern
 - [ ] Create core components
   - [ ] Page container
