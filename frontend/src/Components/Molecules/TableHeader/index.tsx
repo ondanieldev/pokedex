@@ -2,10 +2,9 @@ import React from 'react';
 import { FiRefreshCw } from 'react-icons/fi';
 import { Box, ButtonGroup, IconButton, Stack, Text } from '@chakra-ui/react';
 
-export interface ITableHeaderProps {
-  title: string;
-  onRefresh?: () => unknown;
-}
+import { ITableProps } from '../Table';
+
+type ITableHeaderProps = Pick<ITableProps, 'title' | 'onRefresh'>;
 
 const TableHeader: React.FC<ITableHeaderProps> = ({ title, onRefresh }) => {
   return (

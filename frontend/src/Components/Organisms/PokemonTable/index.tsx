@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import Table from '../../Molecules/Table';
+import Table, { ITableColumn, ITableRow } from '../../Molecules/Table';
 import { usePokemons } from '../../../Hooks/usePokemons';
-import { ITableColumn, ITableRow } from '../../Molecules/TableContent';
 import { IPokemonListItem } from '../../../@Types/IPokemonList';
 
 const PokemonTable: React.FC = () => {
-  const limit = 3;
+  const limit = 10;
 
   const { indexPokemons } = usePokemons();
 
@@ -61,6 +60,7 @@ const PokemonTable: React.FC = () => {
       total={total}
       isLoading={isLoading}
       onRefresh={handleIndexPokemons}
+      renderAccordion={() => <div>Test</div>}
     />
   );
 };

@@ -1,32 +1,27 @@
-import React, { useCallback, useMemo } from 'react';
-import { Table, TableProps, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import React, { useMemo } from 'react';
+import { Table, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 
-export type ITableRowValue = string | number;
+import TableRow from '../TableRow';
+import { ITableProps, ITableRow } from '../Table';
 
-export type ITableRow = Record<string, ITableRowValue>;
+type ITableContentProps = Pick<
+  ITableProps,
+  | 'columns'
+  | 'rows'
+  | 'limit'
+  | 'page'
+  | 'renderAccordion'
+  | 'paginationStrategy'
+>;
 
-export interface ITableColumn {
-  title: string;
-  dataIndex?: string | string[];
-  render?(row: unknown): React.ReactNode;
-}
-
-export interface ITableContentProps extends Omit<TableProps, 'title'> {
-  rows: ITableRow[];
-  columns: ITableColumn[];
-  limit: number;
-  page: number;
-  paginationStrategy?: 'internal' | 'external';
-}
-
-export const TableContent = ({
+export const TableContent: React.FC<ITableContentProps> = ({
   columns,
   rows,
   limit,
   page,
+  renderAccordion,
   paginationStrategy = 'external',
-  ...rest
-}: ITableContentProps) => {
+}) => {
   const rowsView = useMemo<ITableRow[]>(() => {
     if (paginationStrategy === 'internal') {
       const offset = (page - 1) * limit;
@@ -40,39 +35,12 @@ export const TableContent = ({
     return Array.from({ length }, (_, i) => rows[i]);
   }, [limit, rows, page, paginationStrategy]);
 
-  const handleGetRowProp = useCallback(
-    (row: ITableRow, column: ITableColumn): React.ReactNode => {
-      if (column.render) {
-        return column.render(row);
-      }
-
-      if (column.dataIndex) {
-        if (typeof column.dataIndex === 'string') {
-          return row[column.dataIndex];
-        }
-
-        if (Array.isArray(column.dataIndex)) {
-          let prop: ITableRow | ITableRowValue = row;
-          column.dataIndex.forEach(index => {
-            if (typeof prop === 'object' && !!prop[index]) {
-              prop = prop[index];
-            }
-          });
-          if (typeof prop !== 'object') {
-            return prop;
-          }
-        }
-      }
-
-      return '';
-    },
-    [],
-  );
-
   return (
-    <Table {...rest}>
+    <Table>
       <Thead>
         <Tr>
+          {renderAccordion && <Th width="0" />}
+
           {columns.map((column, index) => (
             <Th key={index} textTransform="capitalize">
               {column.title}
@@ -83,11 +51,12 @@ export const TableContent = ({
 
       <Tbody>
         {rowsView.map((row, rowIndex) => (
-          <Tr key={rowIndex}>
-            {columns.map((column, rowIndex) => (
-              <Td key={rowIndex}>{handleGetRowProp(row, column)}</Td>
-            ))}
-          </Tr>
+          <TableRow
+            row={row}
+            key={rowIndex}
+            columns={columns}
+            renderAccordion={renderAccordion}
+          />
         ))}
       </Tbody>
     </Table>
