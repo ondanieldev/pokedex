@@ -15,7 +15,8 @@ interface IProps {
 interface IPokemonsContext {
   indexPokemons: (data: IListPokemonsDTO) => Promise<IPokemonList | null>;
   showPokemon: (name: string) => Promise<IPokemon | null>;
-  removePokemon: (id: number) => Promise<IRemovedPokemon | null>;
+  removePokemon: (name: string) => Promise<IRemovedPokemon | null>;
+  indexRemovedPokemons: () => Promise<IRemovedPokemon[] | null>;
 }
 
 const PokemonsContext = createContext<IPokemonsContext>({} as IPokemonsContext);
@@ -52,9 +53,9 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
   );
 
   const removePokemon = useCallback(
-    async (id: number): Promise<IRemovedPokemon | null> => {
+    async (name: string): Promise<IRemovedPokemon | null> => {
       try {
-        const response = await customAPI.delete(`/pokemons/${id}`);
+        const response = await customAPI.delete(`/pokemons/${name}`);
         return response.data;
       } catch (err) {
         handleErrors('Error when trying to remove pokémon', err);
@@ -64,13 +65,26 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
     [handleErrors],
   );
 
+  const indexRemovedPokemons = useCallback(async (): Promise<
+    IRemovedPokemon[] | null
+  > => {
+    try {
+      const response = await customAPI.delete('/pokemons/removed');
+      return response.data;
+    } catch (err) {
+      handleErrors('Error when trying to index removed pokémons', err);
+      return null;
+    }
+  }, [handleErrors]);
+
   const value = useMemo<IPokemonsContext>(
     () => ({
       indexPokemons,
       showPokemon,
       removePokemon,
+      indexRemovedPokemons,
     }),
-    [indexPokemons, showPokemon, removePokemon],
+    [indexPokemons, showPokemon, removePokemon, indexRemovedPokemons],
   );
 
   return (

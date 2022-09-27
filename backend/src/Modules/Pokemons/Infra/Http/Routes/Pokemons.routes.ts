@@ -10,10 +10,10 @@ class PokemonsRoutes {
     const pokemonsController = new PokemonsController();
 
     pokemonsRoutes.delete(
-      '/:id',
+      '/:name',
       celebrate({
         [Segments.PARAMS]: {
-          id: Joi.number().required(),
+          name: Joi.string().required(),
         },
       }),
       pokemonsController.delete,

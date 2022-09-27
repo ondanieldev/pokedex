@@ -15,13 +15,13 @@ class RemovePokemonService {
     private removedPokemonsRepository: IRemovedPokemonsRepository,
   ) {}
 
-  public execute = async (id: number): Promise<IResponse> => {
-    const alreadyRemoved = await this.removedPokemonsRepository.findOne(id);
+  public execute = async (name: string): Promise<IResponse> => {
+    const alreadyRemoved = await this.removedPokemonsRepository.findOne(name);
     if (alreadyRemoved) {
       throw new HttpError('This pokémon is already removed');
     }
 
-    const pokemon = await this.removedPokemonsRepository.create(id);
+    const pokemon = await this.removedPokemonsRepository.create(name);
 
     return {
       pokemon,

@@ -21,7 +21,7 @@ const RemoveButton: React.FC<IProps> = ({ name, ...props }) => {
 
       const pokemon = await showPokemon(name);
       if (pokemon) {
-        const removedPokemon = await removePokemon(pokemon.id);
+        const removedPokemon = await removePokemon(pokemon.name);
         if (removedPokemon) {
           showToast({
             title: 'Pokémon removed successfully',

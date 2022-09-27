@@ -10,11 +10,11 @@ class PokemonsController {
     response: Response,
     _: NextFunction,
   ): Promise<Response> => {
-    const { id } = request.params;
+    const { name } = request.params;
 
     const removePokemonService = container.resolve(RemovePokemonService);
 
-    const result = await removePokemonService.execute(Number(id));
+    const result = await removePokemonService.execute(name);
 
     return response.status(200).json(result);
   };

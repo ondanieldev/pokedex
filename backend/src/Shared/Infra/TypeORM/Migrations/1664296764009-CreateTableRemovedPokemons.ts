@@ -9,8 +9,8 @@ export default class CreateTableRemovedPokemons1664296764009
         name: 'removed_pokemons',
         columns: [
           {
-            name: 'id',
-            type: 'integer',
+            name: 'name',
+            type: 'varchar',
             isPrimary: true,
           },
           {

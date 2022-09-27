@@ -15,15 +15,17 @@ class RemovedPokemonsRepository implements IRemovedPokemonsRepository {
     return pokemons;
   };
 
-  public findOne = async (id: number): Promise<RemovedPokemon | undefined> => {
+  public findOne = async (
+    name: string,
+  ): Promise<RemovedPokemon | undefined> => {
     const pokemon = await this.ormRepository.findOne({
-      where: { id },
+      where: { name },
     });
     return pokemon;
   };
 
-  public create = async (id: number): Promise<RemovedPokemon> => {
-    const pokemon = this.ormRepository.create({ id });
+  public create = async (name: string): Promise<RemovedPokemon> => {
+    const pokemon = this.ormRepository.create({ name });
     await this.ormRepository.save(pokemon);
     return pokemon;
   };

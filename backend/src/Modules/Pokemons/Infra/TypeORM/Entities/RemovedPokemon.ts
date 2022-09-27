@@ -3,7 +3,7 @@ import { CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
 @Entity('removed_pokemons')
 class RemovedPokemon {
   @PrimaryColumn()
-  id: number;
+  name: string;
 
   @CreateDateColumn()
   removedAt: Date;

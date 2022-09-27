@@ -1,5 +1,5 @@
 interface IRemovedPokemon {
-  id: number;
+  name: string;
   removedAt: Date;
 }
 
