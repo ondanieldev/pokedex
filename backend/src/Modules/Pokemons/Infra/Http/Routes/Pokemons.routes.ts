@@ -19,6 +19,8 @@ class PokemonsRoutes {
       pokemonsController.delete,
     );
 
+    pokemonsRoutes.get('/removed', pokemonsController.indexRemoved);
+
     return pokemonsRoutes;
   };
 }

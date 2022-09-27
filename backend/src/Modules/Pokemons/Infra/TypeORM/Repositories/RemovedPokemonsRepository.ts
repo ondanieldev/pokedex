@@ -10,8 +10,13 @@ class RemovedPokemonsRepository implements IRemovedPokemonsRepository {
     this.ormRepository = getRepository(RemovedPokemon);
   }
 
+  public find = async (): Promise<RemovedPokemon[]> => {
+    const pokemons = await this.ormRepository.find();
+    return pokemons;
+  };
+
   public findOne = async (id: number): Promise<RemovedPokemon | undefined> => {
-    const pokemon = this.ormRepository.findOne({
+    const pokemon = await this.ormRepository.findOne({
       where: { id },
     });
     return pokemon;
