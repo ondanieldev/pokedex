@@ -58,7 +58,9 @@
 3. Change your `ormconfig.json` file to use the files located on the `dist` folder:
    1. Just replace `src` by `dist` and `.ts` by `.js` on the `ormconfig.json` entries.
 
-4. Start backend on production mode by running `yarn prod`
+4. Copy `ecosystem.config.json.example` to a new `ecosystem.config.json` file
+
+5. Start backend on production mode by running `yarn prod`
 
 ## Frontend
 
