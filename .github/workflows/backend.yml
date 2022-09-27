@@ -19,6 +19,7 @@ jobs:
       - name: Setup backend
         run: |
           cd backend
+          nvm use --lts
           yarn install
           yarn lint
           yarn build
