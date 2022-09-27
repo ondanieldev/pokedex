@@ -29,7 +29,7 @@
 - [x] Remove item
 - [x] Handle API errors
 - [x] Toast errors
-- [ ] Invalid accordion render
+- [x] Invalid accordion render
 - [ ] Filter/order table
 - [ ] Review
 

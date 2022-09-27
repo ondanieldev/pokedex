@@ -12,7 +12,7 @@ interface IProps extends Omit<ButtonProps, 'children'> {
 
 const RemoveButton: React.FC<IProps> = ({ name, onDelete, ...props }) => {
   const { showToast } = useToast();
-  const { removePokemon, showPokemon } = usePokemons();
+  const { removePokemon } = usePokemons();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,23 +20,20 @@ const RemoveButton: React.FC<IProps> = ({ name, onDelete, ...props }) => {
     async (name: string) => {
       setIsLoading(true);
 
-      const pokemon = await showPokemon(name);
-      if (pokemon) {
-        const removedPokemon = await removePokemon(pokemon.name);
-        if (removedPokemon) {
-          showToast({
-            title: 'Pokémon removed successfully',
-            status: 'success',
-          });
-          if (onDelete) {
-            onDelete();
-          }
+      const removedPokemon = await removePokemon(name);
+      if (removedPokemon) {
+        showToast({
+          title: 'Pokémon removed successfully',
+          status: 'success',
+        });
+        if (onDelete) {
+          onDelete();
         }
       }
 
       setIsLoading(false);
     },
-    [showPokemon, removePokemon, showToast, onDelete],
+    [removePokemon, showToast, onDelete],
   );
 
   return (

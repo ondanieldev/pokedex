@@ -1,10 +1,14 @@
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
   Avatar,
   Box,
   Flex,
   Heading,
   HStack,
   Icon,
+  Skeleton,
   Stack,
   Tag,
   Text,
@@ -25,6 +29,7 @@ const PokemonDescription: React.FC<IProps> = ({ name }) => {
   const { showPokemon } = usePokemons();
 
   const [pokemon, setPokemon] = useState<IPokemon | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const avatar = useMemo(
     () => pokemon?.sprites?.front_default || '',
@@ -46,67 +51,83 @@ const PokemonDescription: React.FC<IProps> = ({ name }) => {
     () => pokemon?.abilities.map(ability => ability.ability.name) || [],
     [pokemon],
   );
+  const wrapperColor = useColorModeValue('gray.100', 'gray.800');
+  const cardColor = useColorModeValue('white', 'gray.700');
 
   useEffect(() => {
-    showPokemon(name).then(data => {
-      if (!data) return;
-      setPokemon(data);
-    });
+    setIsLoading(true);
+    showPokemon(name)
+      .then(data => {
+        if (!data) return;
+        setPokemon(data);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [showPokemon, name]);
 
   return (
-    <Box py="12" bg={useColorModeValue('gray.100', 'gray.800')}>
-      <Box
-        bg={useColorModeValue('white', 'gray.700')}
-        maxWidth="2xl"
-        mx="auto"
-        p={{ base: '6', md: '8' }}
-        rounded={{ sm: 'lg' }}
-        shadow={{ md: 'base' }}
-      >
-        <Stack
-          direction={{ base: 'column', md: 'row' }}
-          spacing={{ base: '4', md: '10' }}
-        >
-          <Avatar size="2xl" src={avatar} />
-          <Box width="full">
-            <Flex justifyContent="space-between" alignItems="center">
-              <Heading
-                size="md"
-                fontWeight="extrabold"
-                letterSpacing="tight"
-                marginEnd="6"
-                textTransform="capitalize"
-              >
-                {name}
-              </Heading>
-            </Flex>
-            <Text mt="1" fontWeight="medium" textTransform="capitalize">
-              {elements}
-            </Text>
-            <Stack spacing="1" mt="2">
-              <HStack fontSize="sm">
-                <Icon as={GiHealthNormal} color="green.500" />
-                <Text>{hp}</Text>
-              </HStack>
-              <HStack fontSize="sm">
-                <Icon as={GiBroadsword} color="orange.500" />
-                <Text>{attack}</Text>
-              </HStack>
-            </Stack>
+    <Skeleton isLoaded={!isLoading && !!pokemon}>
+      {pokemon ? (
+        <Box py="12" bg={wrapperColor}>
+          <Box
+            bg={cardColor}
+            maxWidth="2xl"
+            mx="auto"
+            p={{ base: '6', md: '8' }}
+            rounded={{ sm: 'lg' }}
+            shadow={{ md: 'base' }}
+          >
+            <Stack
+              direction={{ base: 'column', md: 'row' }}
+              spacing={{ base: '4', md: '10' }}
+            >
+              <Avatar size="2xl" src={avatar} />
+              <Box width="full">
+                <Flex justifyContent="space-between" alignItems="center">
+                  <Heading
+                    size="md"
+                    fontWeight="extrabold"
+                    letterSpacing="tight"
+                    marginEnd="6"
+                    textTransform="capitalize"
+                  >
+                    {name}
+                  </Heading>
+                </Flex>
+                <Text mt="1" fontWeight="medium" textTransform="capitalize">
+                  {elements}
+                </Text>
+                <Stack spacing="1" mt="2">
+                  <HStack fontSize="sm">
+                    <Icon as={GiHealthNormal} color="green.500" />
+                    <Text>{hp}</Text>
+                  </HStack>
+                  <HStack fontSize="sm">
+                    <Icon as={GiBroadsword} color="orange.500" />
+                    <Text>{attack}</Text>
+                  </HStack>
+                </Stack>
 
-            <Text fontWeight="semibold" mt="8" mb="2">
-              Abilities
-            </Text>
-            <Wrap textTransform="capitalize" shouldWrapChildren>
-              {abilities.map((ability, index) => (
-                <Tag key={index}>{ability}</Tag>
-              ))}
-            </Wrap>
+                <Text fontWeight="semibold" mt="8" mb="2">
+                  Abilities
+                </Text>
+                <Wrap textTransform="capitalize" shouldWrapChildren>
+                  {abilities.map((ability, index) => (
+                    <Tag key={index}>{ability}</Tag>
+                  ))}
+                </Wrap>
+              </Box>
+            </Stack>
           </Box>
-        </Stack>
-      </Box>
-    </Box>
+        </Box>
+      ) : (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertTitle>This pokemon data is not available!</AlertTitle>
+        </Alert>
+      )}
+    </Skeleton>
   );
 };
 
