@@ -11,7 +11,7 @@
 
 - Backend was developed using NodeJS and Typescript
 - It uses ExpressJS as http server provider
-- It was developd following SOLID principles
+- It was developed following SOLID principles
 - Postgres is used as the main database and uses migrations to setup its tables
 - Prettier, Eslint and Editorconfig are being used to keep the code following a good pattern
 - PM2 is used to serve files in production mode
