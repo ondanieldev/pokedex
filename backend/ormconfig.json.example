@@ -8,13 +8,13 @@
     "password": "123456",
     "database": "santiago",
     "entities": [
-      "./dist/Modules/**/Entities/*.js"
+      "./src/Modules/**/Entities/*.ts"
     ],
     "migrations": [
-      "./dist/Shared/Infra/TypeORM/Migrations/*.js"
+      "./src/Shared/Infra/TypeORM/Migrations/*.ts"
     ],
     "cli": {
-      "migrationsDir": "./dist/Shared/Infra/TypeORM/Migrations"
+      "migrationsDir": "./src/Shared/Infra/TypeORM/Migrations"
     }
   }
 ]
