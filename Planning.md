@@ -43,7 +43,7 @@
   - [x] Code pattern
   - [x] Design pattern
   - [x] Database
-- [ ] Create remove item service
+- [x] Create remove item service
 - [ ] Review
 - [ ] Cache ?
 - [ ] Rate limit ?
