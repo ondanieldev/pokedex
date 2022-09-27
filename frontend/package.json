@@ -1,6 +1,11 @@
 {
   "name": "pokedex-frontend",
   "version": "1.0.0",
+  "description": "A simple SPA which integrates PokeAPI",
+  "main": "dist/Shared/Infra/Http/index.js",
+  "repository": "git@github.com:ondanieldev/pokedex.git",
+  "author": "Daniel Oliveira <me@ondaniel.com.br>",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@chakra-ui/pro-theme": "^0.0.55",

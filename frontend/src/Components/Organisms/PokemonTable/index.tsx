@@ -4,47 +4,18 @@ import Table, { ITableColumn, ITableRow } from '../../Molecules/Table';
 import { usePokemons } from '../../../Hooks/usePokemons';
 import { IPokemonListItem } from '../../../@Types/IPokemonList';
 import PokemonDescription from '../PokemonDescription';
+import RemoveButton from '../../Atoms/RemoveButton';
+import IPokemon from '../../../@Types/IPokemon';
 
 const PokemonTable: React.FC = () => {
   const limit = 10;
 
-  const { indexPokemons } = usePokemons();
+  const { indexPokemons, removePokemon, showPokemon } = usePokemons();
 
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [pokemons, setPokemons] = useState<IPokemonListItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  const rows = useMemo<ITableRow[]>(
-    () =>
-      pokemons.map(pokemon => ({
-        name: pokemon.name,
-      })),
-    [pokemons],
-  );
-
-  const columns = useMemo<ITableColumn[]>(
-    () => [
-      {
-        title: 'name',
-        dataIndex: 'name',
-      },
-      // <Button
-      //           size="sm"
-      //           variant="outline"
-      //           color="red.500"
-      //           borderColor="red.200"
-      //           _hover={{ bg: 'red.50' }}
-      //           _active={{ bg: 'red.100' }}
-      //           leftIcon={
-      //             <Icon as={FiTrash2} color="red.500" marginStart="-1" />
-      //           }
-      //         >
-      //           Remove
-      //         </Button>
-    ],
-    [],
-  );
 
   const handleIndexPokemons = useCallback(async () => {
     setIsLoading(true);
@@ -63,6 +34,40 @@ const PokemonTable: React.FC = () => {
     if (!row || !row.name) return '';
     return <PokemonDescription name={row.name.toString()} />;
   }, []);
+
+  const handleRemovePokemon = useCallback(
+    async (name: string) => {
+      const pokemon = await showPokemon(name);
+      if (!pokemon) return;
+      removePokemon(pokemon.id);
+    },
+    [showPokemon, removePokemon],
+  );
+
+  const rows = useMemo<ITableRow[]>(
+    () =>
+      pokemons.map(pokemon => ({
+        name: pokemon.name,
+      })),
+    [pokemons],
+  );
+
+  const columns = useMemo<ITableColumn[]>(
+    () => [
+      {
+        title: 'name',
+        dataIndex: 'name',
+      },
+      {
+        title: 'Actions',
+        width: '0',
+        render: (row: IPokemon) => {
+          return <RemoveButton onClick={() => handleRemovePokemon(row.name)} />;
+        },
+      },
+    ],
+    [handleRemovePokemon],
+  );
 
   useEffect(() => {
     handleIndexPokemons();

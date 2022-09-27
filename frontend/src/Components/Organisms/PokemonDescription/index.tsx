@@ -99,8 +99,8 @@ const PokemonDescription: React.FC<IProps> = ({ name }) => {
               Abilities
             </Text>
             <Wrap textTransform="capitalize" shouldWrapChildren>
-              {abilities.map(ability => (
-                <Tag>{ability}</Tag>
+              {abilities.map((ability, index) => (
+                <Tag key={index}>{ability}</Tag>
               ))}
             </Wrap>
           </Box>

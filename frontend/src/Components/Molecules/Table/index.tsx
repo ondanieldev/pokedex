@@ -21,6 +21,7 @@ export interface ITableColumn {
   title: string;
   dataIndex?: string | string[];
   render?(row: unknown): React.ReactNode;
+  width?: string;
 }
 export interface ITableProps {
   title: string;

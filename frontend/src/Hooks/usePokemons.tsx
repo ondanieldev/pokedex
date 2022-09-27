@@ -3,6 +3,8 @@ import React, { createContext, useCallback, useContext, useMemo } from 'react';
 import IListPokemonsDTO from '../@Types/IListPokemonsDTO';
 import IPokemon from '../@Types/IPokemon';
 import IPokemonList from '../@Types/IPokemonList';
+import IRemovedPokemon from '../@Types/IRemovedPokemon';
+import customAPI from '../Services/customAPI';
 import pokeAPI from '../Services/pokeAPI';
 
 interface IProps {
@@ -12,6 +14,7 @@ interface IProps {
 interface IPokemonsContext {
   indexPokemons: (data: IListPokemonsDTO) => Promise<IPokemonList | null>;
   showPokemon: (name: string) => Promise<IPokemon | null>;
+  removePokemon: (id: number) => Promise<IRemovedPokemon | null>;
 }
 
 const PokemonsContext = createContext<IPokemonsContext>({} as IPokemonsContext);
@@ -43,12 +46,25 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
     [],
   );
 
+  const removePokemon = useCallback(
+    async (id: number): Promise<IRemovedPokemon | null> => {
+      try {
+        const response = await customAPI.delete(`/pokemons/${id}`);
+        return response.data;
+      } catch {
+        return null;
+      }
+    },
+    [],
+  );
+
   const value = useMemo<IPokemonsContext>(
     () => ({
       indexPokemons,
       showPokemon,
+      removePokemon,
     }),
-    [indexPokemons, showPokemon],
+    [indexPokemons, showPokemon, removePokemon],
   );
 
   return (
