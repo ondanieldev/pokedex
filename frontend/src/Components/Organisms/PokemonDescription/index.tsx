@@ -15,7 +15,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { GiBroadsword, GiHealthNormal } from 'react-icons/gi';
 
 import IPokemon from '../../../@Types/IPokemon';
-import { usePokemons } from '../../../Hooks/usePokemons';
+import usePokemons from '../../../Hooks/usePokemons';
 
 interface IProps {
   name: string;
@@ -99,8 +99,8 @@ const PokemonDescription: React.FC<IProps> = ({ name }) => {
               Abilities
             </Text>
             <Wrap textTransform="capitalize" shouldWrapChildren>
-              {abilities.map(ability => (
-                <Tag>{ability}</Tag>
+              {abilities.map((ability, index) => (
+                <Tag key={index}>{ability}</Tag>
               ))}
             </Wrap>
           </Box>

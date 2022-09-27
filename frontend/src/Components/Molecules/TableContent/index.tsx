@@ -42,7 +42,11 @@ export const TableContent: React.FC<ITableContentProps> = ({
           {renderAccordion && <Th width="0" />}
 
           {columns.map((column, index) => (
-            <Th key={index} textTransform="capitalize">
+            <Th
+              width={column.width || 'auto'}
+              key={index}
+              textTransform="capitalize"
+            >
               {column.title}
             </Th>
           ))}

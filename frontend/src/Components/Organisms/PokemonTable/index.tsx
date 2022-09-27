@@ -4,16 +4,52 @@ import Table, { ITableColumn, ITableRow } from '../../Molecules/Table';
 import { usePokemons } from '../../../Hooks/usePokemons';
 import { IPokemonListItem } from '../../../@Types/IPokemonList';
 import PokemonDescription from '../PokemonDescription';
+import RemoveButton from '../../Atoms/RemoveButton';
+import IPokemon from '../../../@Types/IPokemon';
 
 const PokemonTable: React.FC = () => {
   const limit = 10;
 
-  const { indexPokemons } = usePokemons();
+  const { indexPokemons, indexRemovedPokemons } = usePokemons();
 
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [pokemons, setPokemons] = useState<IPokemonListItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleIndexPokemons = useCallback(
+    async (lazy = false) => {
+      if (!lazy) {
+        setIsLoading(true);
+      }
+      const result = await indexPokemons({
+        limit,
+        offset: (page - 1) * limit,
+      });
+
+      if (result) {
+        const removeds = await indexRemovedPokemons();
+        if (removeds) {
+          const removedNames = removeds.map(pokemon => pokemon.name);
+          const pokemons = result.results.filter(
+            pokemon => !removedNames.includes(pokemon.name),
+          );
+          setTotal(result.count);
+          setPokemons(pokemons);
+        }
+      }
+
+      if (!lazy) {
+        setIsLoading(false);
+      }
+    },
+    [indexPokemons, page, indexRemovedPokemons],
+  );
+
+  const handleRenderAccordion = useCallback((row: ITableRow) => {
+    if (!row || !row.name) return '';
+    return <PokemonDescription name={row.name.toString()} />;
+  }, []);
 
   const rows = useMemo<ITableRow[]>(
     () =>
@@ -29,40 +65,21 @@ const PokemonTable: React.FC = () => {
         title: 'name',
         dataIndex: 'name',
       },
-      // <Button
-      //           size="sm"
-      //           variant="outline"
-      //           color="red.500"
-      //           borderColor="red.200"
-      //           _hover={{ bg: 'red.50' }}
-      //           _active={{ bg: 'red.100' }}
-      //           leftIcon={
-      //             <Icon as={FiTrash2} color="red.500" marginStart="-1" />
-      //           }
-      //         >
-      //           Remove
-      //         </Button>
+      {
+        title: 'Actions',
+        width: '0',
+        render: (row: IPokemon) => {
+          return (
+            <RemoveButton
+              name={row.name}
+              onDelete={() => handleIndexPokemons(true)}
+            />
+          );
+        },
+      },
     ],
-    [],
+    [handleIndexPokemons],
   );
-
-  const handleIndexPokemons = useCallback(async () => {
-    setIsLoading(true);
-    const result = await indexPokemons({
-      limit,
-      offset: (page - 1) * limit,
-    });
-    setIsLoading(false);
-    if (!result) return;
-
-    setTotal(result.count);
-    setPokemons(result.results);
-  }, [indexPokemons, page]);
-
-  const handleRenderAccordion = useCallback((row: ITableRow) => {
-    if (!row || !row.name) return '';
-    return <PokemonDescription name={row.name.toString()} />;
-  }, []);
 
   useEffect(() => {
     handleIndexPokemons();

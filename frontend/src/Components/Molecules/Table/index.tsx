@@ -21,6 +21,7 @@ export interface ITableColumn {
   title: string;
   dataIndex?: string | string[];
   render?(row: unknown): React.ReactNode;
+  width?: string;
 }
 export interface ITableProps {
   title: string;
@@ -63,10 +64,10 @@ export const Table: React.FC<ITableProps> = ({
   const paginationText = useMemo(() => {
     if (!isValid) return '';
 
-    const start = (page - 1) * limit + 1;
-    const end = Math.min(page * limit, total);
+    const start = (page - 1) * rows.length + 1;
+    const end = Math.min(page * rows.length, total);
     return `Showing ${start} to ${end} of ${total} results`;
-  }, [page, limit, total, isValid]);
+  }, [page, rows, total, isValid]);
 
   const isTherePrevious = useMemo<boolean>(
     () => isValid && page > 1,
@@ -110,9 +111,11 @@ export const Table: React.FC<ITableProps> = ({
       <Box px={{ base: '4', md: '6' }} pb="5">
         <HStack spacing="3" justify="space-between">
           {!isMobile && (
-            <Text color="muted" fontSize="sm">
-              {paginationText}
-            </Text>
+            <Skeleton isLoaded={!isLoading}>
+              <Text color="muted" fontSize="sm">
+                {paginationText}
+              </Text>
+            </Skeleton>
           )}
 
           <ButtonGroup

@@ -71,7 +71,9 @@ export const TableRow: React.FC<ITableRowProps> = ({
         )}
 
         {columns.map((column, rowIndex) => (
-          <Td key={rowIndex}>{handleGetRowProp(row, column)}</Td>
+          <Td textTransform="capitalize" key={rowIndex}>
+            {handleGetRowProp(row, column)}
+          </Td>
         ))}
       </Tr>
 

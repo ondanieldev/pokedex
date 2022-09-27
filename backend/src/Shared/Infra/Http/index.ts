@@ -8,6 +8,8 @@ import { configure, getLogger } from 'log4js';
 import { errors as celebrateErrors } from 'celebrate';
 
 import apiConfig from '@Shared/Config/apiConfig';
+import PokemonsInjections from '@Modules/Pokemons/Infra/Injections/PokemonsInjections';
+import PokemonsRoutes from '@Modules/Pokemons/Infra/Http/Routes/Pokemons.routes';
 import TypeORM from '../TypeORM';
 import ErrorsMiddleware from './Middlewares/ErrorsMiddleware';
 
@@ -24,19 +26,27 @@ const server = async (): Promise<void> => {
   const typeORM = new TypeORM();
   await typeORM.setup();
 
-  // EXPRESS
+  // INJECTIONS
+  const pokemonsInjections = new PokemonsInjections();
+  pokemonsInjections.register();
+
+  // SERVER
   const app = express();
 
-  // EXPRESS: pre-routes middlewares
+  // SERVER: pre-routes middlewares
   app.use(express.json());
   app.use(cors());
 
-  // EXPRESS: post-routes middlewares
+  // SERVER: routes
+  const pokemonsRoutes = new PokemonsRoutes();
+  app.use('/pokemons', pokemonsRoutes.register());
+
+  // SERVER: post-routes middlewares
   const errorsMiddleware = new ErrorsMiddleware();
   app.use(celebrateErrors());
   app.use(errorsMiddleware.execute);
 
-  // SERVER
+  // SERVER: start
   app.listen(apiConfig.port, () => {
     logger.info(`Server running on http://localhost:${apiConfig.port}`);
   });

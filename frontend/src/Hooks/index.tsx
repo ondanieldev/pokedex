@@ -1,5 +1,8 @@
 import React from 'react';
+import { ToastProvider as ChakraToastProvider } from '@chakra-ui/react';
 
+import { ToastProvider } from './useToast';
+import { ErrorsProvider } from './useErrors';
 import { PokemonsProvider } from './usePokemons';
 
 interface IProps {
@@ -8,7 +11,12 @@ interface IProps {
 
 type IProviders = React.FC<IProps>[];
 
-const providers: IProviders = [PokemonsProvider];
+const providers: IProviders = [
+  ChakraToastProvider,
+  ToastProvider,
+  ErrorsProvider,
+  PokemonsProvider,
+];
 
 const CombineProviders: React.FC<IProps> = ({ children }) => {
   return (
