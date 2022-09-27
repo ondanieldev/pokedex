@@ -1,0 +1,21 @@
+# Node
+node_modules
+
+# Yarn
+yarn-error.log
+yarn.lock
+
+# Ts
+tsconfig.tsbuildinfo
+
+# Js
+dist
+
+# App
+.env
+ecosystem.config.js
+
+# Database
+./psqldata
+ormconfig.json
+docker-compose.override.yml
