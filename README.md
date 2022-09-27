@@ -2,7 +2,7 @@
 
 ## Introduction
 
-- Pokédex is a simple SPA that integrates [PokéAPI](https://pokeapi.co/) and a [own API](pokedex-api.ondaniel.com.br) for custom services, like removing unwanted pokémons
+- Pokédex is a simple SPA that integrates [PokéAPI](https://pokeapi.co/) and a [custom API](pokedex-api.ondaniel.com.br) for complementar services, like removing unwanted pokémons
 - This repo contains two main folders: `backend` and `frontend`, which defines independent applications
 
 ## Backend
@@ -20,14 +20,13 @@
 ### Backend folder structure
 
 - The project is splitted into two main folders:
-  - `Modules`: each folder inside modules folder holds files attached to an "entity" of the project. In this case, just the "RemovedPokemon" entity
-    - Each folder inside modules folder uses the following structure:
-      - `Infra`: all files related to external services, like database and http server
-        - `Http`: stores controllers and routes using Express as external dependency
-        - `TypeORM`: stores entities and repositories using TypeORM as external dependency
-        - `Injections`: assign an external dependency to a TAD. So a service will automatically use it when instantiated by using `container.resolve(Service)`. So if we want to replace the dabatase, for example, we just need to create a new repository following the same TAD and register it on the injections folder
-      - `Repositories`: TADs for accessing entity repository
-      - `Services`: the real functional part of the code. Services are all functions we may want to access through the REST API
+  - `Modules`: each folder inside holds files attached to an **entity** of the project. In this case, just the **RemovedPokemon** entity. They have the following structure:
+    - `Infra`: all files related to external services, like **database** and **http server**
+      - `Http`: stores controllers and routes using Express as external dependency
+      - `TypeORM`: stores entities and repositories using TypeORM as external dependency
+      - `Injections`: assign an external dependency to a ADT (Abstract Data Type). So a service will automatically use it when instantiated by using `container.resolve(Service)`. If we want to replace the dabatase, for example, we just need to create a new repository following the same ADT and register it on the injections folder
+    - `Repositories`: ADTs for accessing entity repository
+    - `Services`: the functional part of the code. Services are all functions we may want to access through the REST API
   - `Shared`: common files for all modules
 - Whenever the client sends a request, the main flux consists on:
   - Route -> Controller -> Service, which can use repositories and other stuff to execute the desired functionality
@@ -67,7 +66,7 @@
 
 - Frontend was developed using ReactJS 18 and Typescript
 - It uses [ChakraUI](https://chakra-ui.com/) as the main component provider
-- It was developd following Atomic Design principles
+- It was developed following Atomic Design principles
 - [PokéAPI](https://pokeapi.co/) is integrated to provide Pokémon info
 - The backend is integrade as a custom API to provide complementar services
 - React Context API is used instead of Redux to setup hooks and shared components
