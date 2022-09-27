@@ -64,10 +64,11 @@ export const Table: React.FC<ITableProps> = ({
   const paginationText = useMemo(() => {
     if (!isValid) return '';
 
-    const start = (page - 1) * rows.length + 1;
-    const end = Math.min(page * rows.length, total);
+    const length = Math.min(rows.length, limit);
+    const start = (page - 1) * length + 1;
+    const end = Math.min(page * length, total);
     return `Showing ${start} to ${end} of ${total} results`;
-  }, [page, rows, total, isValid]);
+  }, [page, limit, rows, total, isValid]);
 
   const isTherePrevious = useMemo<boolean>(
     () => isValid && page > 1,

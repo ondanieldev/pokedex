@@ -7,6 +7,9 @@ import PokemonDescription from '../PokemonDescription';
 import RemoveButton from '../../Atoms/RemoveButton';
 import IPokemon from '../../../@Types/IPokemon';
 
+// Switch to true/false to see how the table comports using limit/offset provided from the API and how it comports using our own controllable variables
+const paginateInternally = true;
+
 const PokemonTable: React.FC = () => {
   const limit = 10;
 
@@ -23,8 +26,8 @@ const PokemonTable: React.FC = () => {
         setIsLoading(true);
       }
       const result = await indexPokemons({
-        limit,
-        offset: (page - 1) * limit,
+        limit: paginateInternally ? 10000 : limit,
+        offset: paginateInternally ? 0 : (page - 1) * limit,
       });
 
       if (result) {
@@ -34,7 +37,7 @@ const PokemonTable: React.FC = () => {
           const pokemons = result.results.filter(
             pokemon => !removedNames.includes(pokemon.name),
           );
-          setTotal(result.count);
+          setTotal(result.count - removedNames.length);
           setPokemons(pokemons);
         }
       }
@@ -97,6 +100,7 @@ const PokemonTable: React.FC = () => {
       isLoading={isLoading}
       onRefresh={handleIndexPokemons}
       renderAccordion={handleRenderAccordion}
+      paginationStrategy={paginateInternally ? 'internal' : 'external'}
     />
   );
 };
