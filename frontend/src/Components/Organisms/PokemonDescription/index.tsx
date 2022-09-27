@@ -51,8 +51,7 @@ const PokemonDescription: React.FC<IProps> = ({ name }) => {
     () => pokemon?.abilities.map(ability => ability.ability.name) || [],
     [pokemon],
   );
-  const wrapperColor = useColorModeValue('gray.100', 'gray.800');
-  const cardColor = useColorModeValue('white', 'gray.700');
+  const cardColor = useColorModeValue('gray.50', 'gray.700');
 
   useEffect(() => {
     setIsLoading(true);
@@ -69,57 +68,54 @@ const PokemonDescription: React.FC<IProps> = ({ name }) => {
   return (
     <Skeleton isLoaded={!isLoading && !!pokemon}>
       {pokemon ? (
-        <Box py="12" bg={wrapperColor}>
-          <Box
-            bg={cardColor}
-            maxWidth="2xl"
-            mx="auto"
-            p={{ base: '6', md: '8' }}
-            rounded={{ sm: 'lg' }}
-            shadow={{ md: 'base' }}
+        <Box
+          bg={cardColor}
+          w="100%"
+          p={{ base: '6', md: '8' }}
+          rounded={{ sm: 'lg' }}
+          shadow={{ md: 'base' }}
+        >
+          <Stack
+            direction={{ base: 'column', md: 'row' }}
+            spacing={{ base: '4', md: '10' }}
           >
-            <Stack
-              direction={{ base: 'column', md: 'row' }}
-              spacing={{ base: '4', md: '10' }}
-            >
-              <Avatar size="2xl" src={avatar} />
-              <Box width="full">
-                <Flex justifyContent="space-between" alignItems="center">
-                  <Heading
-                    size="md"
-                    fontWeight="extrabold"
-                    letterSpacing="tight"
-                    marginEnd="6"
-                    textTransform="capitalize"
-                  >
-                    {name}
-                  </Heading>
-                </Flex>
-                <Text mt="1" fontWeight="medium" textTransform="capitalize">
-                  {elements}
-                </Text>
-                <Stack spacing="1" mt="2">
-                  <HStack fontSize="sm">
-                    <Icon as={GiHealthNormal} color="green.500" />
-                    <Text>{hp}</Text>
-                  </HStack>
-                  <HStack fontSize="sm">
-                    <Icon as={GiBroadsword} color="orange.500" />
-                    <Text>{attack}</Text>
-                  </HStack>
-                </Stack>
+            <Avatar size="2xl" src={avatar} />
+            <Box width="full">
+              <Flex justifyContent="space-between" alignItems="center">
+                <Heading
+                  size="md"
+                  fontWeight="extrabold"
+                  letterSpacing="tight"
+                  marginEnd="6"
+                  textTransform="capitalize"
+                >
+                  {name}
+                </Heading>
+              </Flex>
+              <Text mt="1" fontWeight="medium" textTransform="capitalize">
+                {elements}
+              </Text>
+              <Stack spacing="1" mt="2">
+                <HStack fontSize="sm">
+                  <Icon as={GiHealthNormal} color="green.500" />
+                  <Text>{hp}</Text>
+                </HStack>
+                <HStack fontSize="sm">
+                  <Icon as={GiBroadsword} color="orange.500" />
+                  <Text>{attack}</Text>
+                </HStack>
+              </Stack>
 
-                <Text fontWeight="semibold" mt="8" mb="2">
-                  Abilities
-                </Text>
-                <Wrap textTransform="capitalize" shouldWrapChildren>
-                  {abilities.map((ability, index) => (
-                    <Tag key={index}>{ability}</Tag>
-                  ))}
-                </Wrap>
-              </Box>
-            </Stack>
-          </Box>
+              <Text fontWeight="semibold" mt="8" mb="2">
+                Abilities
+              </Text>
+              <Wrap textTransform="capitalize" shouldWrapChildren>
+                {abilities.map((ability, index) => (
+                  <Tag key={index}>{ability}</Tag>
+                ))}
+              </Wrap>
+            </Box>
+          </Stack>
         </Box>
       ) : (
         <Alert status="error">
