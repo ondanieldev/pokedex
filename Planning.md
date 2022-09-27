@@ -2,12 +2,12 @@
 
 ## General flow
 
-- [ ] Front-end
-- [ ] Devops
-- [ ] Back-end
+- [x] Front-end
+- [x] Devops
+- [x] Back-end
 - [ ] Readme
-- [ ] Workflows ?
-- [ ] Deploys ?
+- [x] Workflows
+- [x] Deploys
 
 ## Frontend flow
 
@@ -31,7 +31,7 @@
 - [x] Toast errors
 - [x] Invalid accordion render
 - [x] Filter/order table
-- [ ] Review
+- [x] Review
 
 ## Devops flow
 
@@ -45,6 +45,6 @@
   - [x] Database
 - [x] Create remove item service
 - [x] Create list items service
-- [ ] Review
+- [x] Review
 - [ ] Rate limit ?
 - [ ] Cache ?
