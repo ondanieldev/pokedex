@@ -10,6 +10,10 @@ import IPokemon from '../../../@Types/IPokemon';
 // Switch to true/false to see how the table comports using limit/offset provided from the API and how it comports using our own controllable variables
 const paginateInternally = true;
 
+interface IHandleIndex {
+  lazy?: boolean;
+}
+
 const PokemonTable: React.FC = () => {
   const limit = 10;
 
@@ -19,9 +23,10 @@ const PokemonTable: React.FC = () => {
   const [total, setTotal] = useState(0);
   const [pokemons, setPokemons] = useState<IPokemonListItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [filter, setFilter] = useState<string | null>(null);
 
   const handleIndexPokemons = useCallback(
-    async (lazy = false) => {
+    async ({ lazy }: IHandleIndex) => {
       if (!lazy) {
         setIsLoading(true);
       }
@@ -34,10 +39,18 @@ const PokemonTable: React.FC = () => {
         const removeds = await indexRemovedPokemons();
         if (removeds) {
           const removedNames = removeds.map(pokemon => pokemon.name);
-          const pokemons = result.results.filter(
+          let pokemons = result.results.filter(
             pokemon => !removedNames.includes(pokemon.name),
           );
-          setTotal(result.count - removedNames.length);
+          if (filter) {
+            pokemons = pokemons.filter(pokemon =>
+              pokemon.name.includes(filter),
+            );
+          }
+          const total = filter
+            ? pokemons.length
+            : result.count - removedNames.length;
+          setTotal(total);
           setPokemons(pokemons);
         }
       }
@@ -46,13 +59,21 @@ const PokemonTable: React.FC = () => {
         setIsLoading(false);
       }
     },
-    [indexPokemons, page, indexRemovedPokemons],
+    [indexPokemons, page, indexRemovedPokemons, filter],
   );
 
   const handleRenderAccordion = useCallback((row: ITableRow) => {
     if (!row || !row.name) return '';
     return <PokemonDescription name={row.name.toString()} />;
   }, []);
+
+  const handleFilter = useCallback(
+    (name: string) => {
+      setFilter(name);
+      handleIndexPokemons({});
+    },
+    [handleIndexPokemons],
+  );
 
   const rows = useMemo<ITableRow[]>(
     () =>
@@ -75,7 +96,7 @@ const PokemonTable: React.FC = () => {
           return (
             <RemoveButton
               name={row.name}
-              onDelete={() => handleIndexPokemons(true)}
+              onDelete={() => handleIndexPokemons({ lazy: true })}
             />
           );
         },
@@ -85,7 +106,7 @@ const PokemonTable: React.FC = () => {
   );
 
   useEffect(() => {
-    handleIndexPokemons();
+    handleIndexPokemons({});
   }, [handleIndexPokemons]);
 
   return (
@@ -98,7 +119,8 @@ const PokemonTable: React.FC = () => {
       setPage={setPage}
       total={total}
       isLoading={isLoading}
-      onRefresh={handleIndexPokemons}
+      onRefresh={() => handleIndexPokemons({})}
+      onSearch={name => handleFilter(name)}
       renderAccordion={handleRenderAccordion}
       paginationStrategy={paginateInternally ? 'internal' : 'external'}
     />

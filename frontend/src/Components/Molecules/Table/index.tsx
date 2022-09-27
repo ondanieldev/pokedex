@@ -39,6 +39,7 @@ export interface ITableProps {
   isLoading?: boolean;
 
   onRefresh?: () => unknown;
+  onSearch?: (value: string) => unknown;
 }
 
 export const Table: React.FC<ITableProps> = ({
@@ -53,6 +54,7 @@ export const Table: React.FC<ITableProps> = ({
   onRefresh,
   renderAccordion,
   paginationStrategy,
+  onSearch,
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -92,7 +94,7 @@ export const Table: React.FC<ITableProps> = ({
 
   return (
     <Stack spacing="5">
-      <TableHeader title={title} onRefresh={onRefresh} />
+      <TableHeader title={title} onRefresh={onRefresh} onSearch={onSearch} />
 
       <Box overflowX="auto">
         {isValid && (

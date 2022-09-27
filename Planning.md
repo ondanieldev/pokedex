@@ -30,7 +30,7 @@
 - [x] Handle API errors
 - [x] Toast errors
 - [x] Invalid accordion render
-- [ ] Filter/order table
+- [x] Filter/order table
 - [ ] Review
 
 ## Devops flow
