@@ -19,7 +19,6 @@ jobs:
       - name: Setup backend
         run: |
           cd backend
-          nvm use --lts
           yarn install
           yarn lint
           yarn build
@@ -43,5 +42,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/pokedex/backend
+            nvm use --lts
             yarn install
             yarn pm2 restart ecosystem.config.js
