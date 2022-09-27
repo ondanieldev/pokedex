@@ -41,6 +41,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/pokedex
+            cd ~/pokedex/backend
             yarn install
             yarn pm2 restart ecosystem.config.js
