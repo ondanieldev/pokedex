@@ -51,7 +51,7 @@ const PokemonDescription: React.FC<IProps> = ({ name }) => {
     () => pokemon?.abilities.map(ability => ability.ability.name) || [],
     [pokemon],
   );
-  const cardColor = useColorModeValue('white', 'gray.700');
+  const cardColor = useColorModeValue('gray.50', 'gray.700');
 
   useEffect(() => {
     setIsLoading(true);

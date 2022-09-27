@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Button, ButtonProps, Icon } from '@chakra-ui/react';
+import { Button, ButtonProps, Icon, useColorModeValue } from '@chakra-ui/react';
 import { FiTrash2 } from 'react-icons/fi';
 
 import useToast from '../../../Hooks/useToast';
@@ -36,15 +36,19 @@ const RemoveButton: React.FC<IProps> = ({ name, onDelete, ...props }) => {
     [removePokemon, showToast, onDelete],
   );
 
+  const color = useColorModeValue('red.500', 'red.300');
+  const colorAction = useColorModeValue('red.50', 'gray.700');
+  const colorBorder = 'red.200';
+
   return (
     <Button
       size="sm"
       variant="outline"
-      color="red.500"
-      borderColor="red.200"
-      _hover={{ bg: 'red.50' }}
-      _active={{ bg: 'red.100' }}
-      leftIcon={<Icon as={FiTrash2} color="red.500" marginStart="-1" />}
+      color={color}
+      borderColor={colorBorder}
+      _hover={{ bg: colorAction }}
+      _active={{ bg: colorAction }}
+      leftIcon={<Icon as={FiTrash2} color={color} marginStart="-1" />}
       onClick={() => handleRemovePokemon(name)}
       isLoading={isLoading}
       {...props}

@@ -4,7 +4,7 @@ import Table, { ITableColumn, ITableRow } from '../../Molecules/Table';
 import { usePokemons } from '../../../Hooks/usePokemons';
 import { IPokemonListItem } from '../../../@Types/IPokemonList';
 import PokemonDescription from '../PokemonDescription';
-import RemoveButton from '../../Atoms/RemoveButton';
+import RemoveButton from '../../Molecules/RemoveButton';
 import IPokemon from '../../../@Types/IPokemon';
 
 // Switch to true/false to see how the table comports using limit/offset provided from the API and how it comports using our own controllable variables
