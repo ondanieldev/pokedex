@@ -7,9 +7,10 @@ import usePokemons from '../../../Hooks/usePokemons';
 
 interface IProps extends Omit<ButtonProps, 'children'> {
   name: string;
+  onDelete?: () => unknown;
 }
 
-const RemoveButton: React.FC<IProps> = ({ name, ...props }) => {
+const RemoveButton: React.FC<IProps> = ({ name, onDelete, ...props }) => {
   const { showToast } = useToast();
   const { removePokemon, showPokemon } = usePokemons();
 
@@ -27,12 +28,15 @@ const RemoveButton: React.FC<IProps> = ({ name, ...props }) => {
             title: 'Pokémon removed successfully',
             status: 'success',
           });
+          if (onDelete) {
+            onDelete();
+          }
         }
       }
 
       setIsLoading(false);
     },
-    [showPokemon, removePokemon, showToast],
+    [showPokemon, removePokemon, showToast, onDelete],
   );
 
   return (

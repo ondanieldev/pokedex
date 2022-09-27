@@ -10,25 +10,41 @@ import IPokemon from '../../../@Types/IPokemon';
 const PokemonTable: React.FC = () => {
   const limit = 10;
 
-  const { indexPokemons } = usePokemons();
+  const { indexPokemons, indexRemovedPokemons } = usePokemons();
 
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [pokemons, setPokemons] = useState<IPokemonListItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleIndexPokemons = useCallback(async () => {
-    setIsLoading(true);
-    const result = await indexPokemons({
-      limit,
-      offset: (page - 1) * limit,
-    });
-    setIsLoading(false);
-    if (!result) return;
+  const handleIndexPokemons = useCallback(
+    async (lazy = false) => {
+      if (!lazy) {
+        setIsLoading(true);
+      }
+      const result = await indexPokemons({
+        limit,
+        offset: (page - 1) * limit,
+      });
 
-    setTotal(result.count);
-    setPokemons(result.results);
-  }, [indexPokemons, page]);
+      if (result) {
+        const removeds = await indexRemovedPokemons();
+        if (removeds) {
+          const removedNames = removeds.map(pokemon => pokemon.name);
+          const pokemons = result.results.filter(
+            pokemon => !removedNames.includes(pokemon.name),
+          );
+          setTotal(result.count);
+          setPokemons(pokemons);
+        }
+      }
+
+      if (!lazy) {
+        setIsLoading(false);
+      }
+    },
+    [indexPokemons, page, indexRemovedPokemons],
+  );
 
   const handleRenderAccordion = useCallback((row: ITableRow) => {
     if (!row || !row.name) return '';
@@ -53,11 +69,16 @@ const PokemonTable: React.FC = () => {
         title: 'Actions',
         width: '0',
         render: (row: IPokemon) => {
-          return <RemoveButton name={row.name} />;
+          return (
+            <RemoveButton
+              name={row.name}
+              onDelete={() => handleIndexPokemons(true)}
+            />
+          );
         },
       },
     ],
-    [],
+    [handleIndexPokemons],
   );
 
   useEffect(() => {

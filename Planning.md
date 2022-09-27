@@ -44,8 +44,7 @@
   - [x] Design pattern
   - [x] Database
 - [x] Create remove item service
-- [ ] Create restore item service
-- [ ] Create list items service
+- [x] Create list items service
 - [ ] Review
 - [ ] Rate limit ?
 - [ ] Cache ?

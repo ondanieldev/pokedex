@@ -56,7 +56,7 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
     async (name: string): Promise<IRemovedPokemon | null> => {
       try {
         const response = await customAPI.delete(`/pokemons/${name}`);
-        return response.data;
+        return response.data.pokemon;
       } catch (err) {
         handleErrors('Error when trying to remove pokémon', err);
         return null;
@@ -69,8 +69,8 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
     IRemovedPokemon[] | null
   > => {
     try {
-      const response = await customAPI.delete('/pokemons/removed');
-      return response.data;
+      const response = await customAPI.get('/pokemons/removed');
+      return response.data.removedPokemons;
     } catch (err) {
       handleErrors('Error when trying to index removed pokémons', err);
       return null;
