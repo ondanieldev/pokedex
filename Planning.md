@@ -35,14 +35,14 @@
 
 ## Devops flow
 
-- [ ] Docker containers
+- [x] Docker containers
 
 ## Backend flow
 
-- [ ] Setup back-end
-  - [ ] Code pattern
-  - [ ] Design pattern
-  - [ ] Database
+- [x] Setup back-end
+  - [x] Code pattern
+  - [x] Design pattern
+  - [x] Database
 - [ ] Create remove item service
 - [ ] Review
 - [ ] Cache ?
