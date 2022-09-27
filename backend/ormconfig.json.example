@@ -1,0 +1,20 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "pokedex",
+    "password": "123456",
+    "database": "santiago",
+    "entities": [
+      "./src/Modules/**/Entities/*.ts"
+    ],
+    "migrations": [
+      "./src/Shared/Infra/TypeORM/Migrations/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "./src/Shared/Infra/TypeORM/Migrations"
+    }
+  }
+]
