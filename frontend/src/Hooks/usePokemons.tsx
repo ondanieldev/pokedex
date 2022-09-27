@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react';
 
 import IListPokemonsDTO from '../@Types/IListPokemonsDTO';
+import IPokemon from '../@Types/IPokemon';
 import IPokemonList from '../@Types/IPokemonList';
 import pokeAPI from '../Services/pokeAPI';
 
@@ -10,6 +11,7 @@ interface IProps {
 
 interface IPokemonsContext {
   indexPokemons: (data: IListPokemonsDTO) => Promise<IPokemonList | null>;
+  showPokemon: (name: string) => Promise<IPokemon | null>;
 }
 
 const PokemonsContext = createContext<IPokemonsContext>({} as IPokemonsContext);
@@ -29,11 +31,24 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
     [],
   );
 
+  const showPokemon = useCallback(
+    async (name: string): Promise<IPokemon | null> => {
+      try {
+        const response = await pokeAPI.get(`/pokemon/${name}`);
+        return response.data;
+      } catch {
+        return null;
+      }
+    },
+    [],
+  );
+
   const value = useMemo<IPokemonsContext>(
     () => ({
       indexPokemons,
+      showPokemon,
     }),
-    [indexPokemons],
+    [indexPokemons, showPokemon],
   );
 
   return (

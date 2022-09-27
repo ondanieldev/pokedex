@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import Table from '../../Molecules/Table';
+import Table, { ITableColumn, ITableRow } from '../../Molecules/Table';
 import { usePokemons } from '../../../Hooks/usePokemons';
-import { ITableColumn, ITableRow } from '../../Molecules/TableContent';
 import { IPokemonListItem } from '../../../@Types/IPokemonList';
+import PokemonDescription from '../PokemonDescription';
 
 const PokemonTable: React.FC = () => {
-  const limit = 3;
+  const limit = 10;
 
   const { indexPokemons } = usePokemons();
 
@@ -29,6 +29,19 @@ const PokemonTable: React.FC = () => {
         title: 'name',
         dataIndex: 'name',
       },
+      // <Button
+      //           size="sm"
+      //           variant="outline"
+      //           color="red.500"
+      //           borderColor="red.200"
+      //           _hover={{ bg: 'red.50' }}
+      //           _active={{ bg: 'red.100' }}
+      //           leftIcon={
+      //             <Icon as={FiTrash2} color="red.500" marginStart="-1" />
+      //           }
+      //         >
+      //           Remove
+      //         </Button>
     ],
     [],
   );
@@ -46,6 +59,11 @@ const PokemonTable: React.FC = () => {
     setPokemons(result.results);
   }, [indexPokemons, page]);
 
+  const handleRenderAccordion = useCallback((row: ITableRow) => {
+    if (!row || !row.name) return '';
+    return <PokemonDescription name={row.name.toString()} />;
+  }, []);
+
   useEffect(() => {
     handleIndexPokemons();
   }, [handleIndexPokemons]);
@@ -61,6 +79,7 @@ const PokemonTable: React.FC = () => {
       total={total}
       isLoading={isLoading}
       onRefresh={handleIndexPokemons}
+      renderAccordion={handleRenderAccordion}
     />
   );
 };

@@ -11,13 +11,33 @@ import {
 } from '@chakra-ui/react';
 
 import ISetState from '../../../@Types/ISetState';
-import TableContent, { ITableContentProps } from '../TableContent';
-import TableHeader, { ITableHeaderProps } from '../TableHeader';
+import TableContent from '../TableContent';
+import TableHeader from '../TableHeader';
 
-interface ITableProps extends ITableHeaderProps, ITableContentProps {
+export type ITableRowValue = string | number;
+
+export type ITableRow = Record<string, ITableRowValue>;
+export interface ITableColumn {
+  title: string;
+  dataIndex?: string | string[];
+  render?(row: unknown): React.ReactNode;
+}
+export interface ITableProps {
+  title: string;
+
+  rows: ITableRow[];
+  columns: ITableColumn[];
+  renderAccordion?: (row: ITableRow) => React.ReactNode;
+
+  limit: number;
   total: number;
+  page: number;
   setPage: ISetState<number>;
+  paginationStrategy?: 'internal' | 'external';
+
   isLoading?: boolean;
+
+  onRefresh?: () => unknown;
 }
 
 export const Table: React.FC<ITableProps> = ({
@@ -30,6 +50,8 @@ export const Table: React.FC<ITableProps> = ({
   isLoading,
   title,
   onRefresh,
+  renderAccordion,
+  paginationStrategy,
 }) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -74,10 +96,12 @@ export const Table: React.FC<ITableProps> = ({
         {isValid && (
           <Skeleton isLoaded={!isLoading}>
             <TableContent
-              columns={columns}
-              rows={rows}
               limit={limit}
               page={page}
+              rows={rows}
+              columns={columns}
+              renderAccordion={renderAccordion}
+              paginationStrategy={paginationStrategy}
             />
           </Skeleton>
         )}
