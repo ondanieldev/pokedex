@@ -6,6 +6,7 @@ import IPokemonList from '../@Types/IPokemonList';
 import IRemovedPokemon from '../@Types/IRemovedPokemon';
 import customAPI from '../Services/customAPI';
 import pokeAPI from '../Services/pokeAPI';
+import useErrors from './useErrors';
 
 interface IProps {
   children: React.ReactNode;
@@ -20,6 +21,8 @@ interface IPokemonsContext {
 const PokemonsContext = createContext<IPokemonsContext>({} as IPokemonsContext);
 
 export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
+  const { handleErrors } = useErrors();
+
   const indexPokemons = useCallback(
     async (data: IListPokemonsDTO): Promise<IPokemonList | null> => {
       try {
@@ -27,11 +30,12 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
           params: data,
         });
         return response.data;
-      } catch {
+      } catch (err) {
+        handleErrors('Error when trying to index pokémons', err);
         return null;
       }
     },
-    [],
+    [handleErrors],
   );
 
   const showPokemon = useCallback(
@@ -39,11 +43,12 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
       try {
         const response = await pokeAPI.get(`/pokemon/${name}`);
         return response.data;
-      } catch {
+      } catch (err) {
+        handleErrors('Error when trying to get pokémon data', err);
         return null;
       }
     },
-    [],
+    [handleErrors],
   );
 
   const removePokemon = useCallback(
@@ -51,11 +56,12 @@ export const PokemonsProvider: React.FC<IProps> = ({ children }) => {
       try {
         const response = await customAPI.delete(`/pokemons/${id}`);
         return response.data;
-      } catch {
+      } catch (err) {
+        handleErrors('Error when trying to remove pokémon', err);
         return null;
       }
     },
-    [],
+    [handleErrors],
   );
 
   const value = useMemo<IPokemonsContext>(
@@ -85,3 +91,5 @@ export const usePokemons = (): IPokemonsContext => {
 
   return context;
 };
+
+export default usePokemons;

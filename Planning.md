@@ -26,12 +26,12 @@
 - [x] List items
 - [x] Refresh table
 - [x] Table item collapse
-- [ ] Review
-- [ ] Remove item
-- [ ] Handle API errors
-- [ ] Toast errors
+- [x] Remove item
+- [x] Handle API errors
+- [x] Toast errors
 - [ ] Invalid accordion render
 - [ ] Filter/order table
+- [ ] Review
 
 ## Devops flow
 
@@ -44,6 +44,8 @@
   - [x] Design pattern
   - [x] Database
 - [x] Create remove item service
+- [ ] Create restore item service
+- [ ] Create list items service
 - [ ] Review
-- [ ] Cache ?
 - [ ] Rate limit ?
+- [ ] Cache ?

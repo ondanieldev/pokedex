@@ -10,7 +10,7 @@ import IPokemon from '../../../@Types/IPokemon';
 const PokemonTable: React.FC = () => {
   const limit = 10;
 
-  const { indexPokemons, removePokemon, showPokemon } = usePokemons();
+  const { indexPokemons } = usePokemons();
 
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -35,15 +35,6 @@ const PokemonTable: React.FC = () => {
     return <PokemonDescription name={row.name.toString()} />;
   }, []);
 
-  const handleRemovePokemon = useCallback(
-    async (name: string) => {
-      const pokemon = await showPokemon(name);
-      if (!pokemon) return;
-      removePokemon(pokemon.id);
-    },
-    [showPokemon, removePokemon],
-  );
-
   const rows = useMemo<ITableRow[]>(
     () =>
       pokemons.map(pokemon => ({
@@ -62,11 +53,11 @@ const PokemonTable: React.FC = () => {
         title: 'Actions',
         width: '0',
         render: (row: IPokemon) => {
-          return <RemoveButton onClick={() => handleRemovePokemon(row.name)} />;
+          return <RemoveButton name={row.name} />;
         },
       },
     ],
-    [handleRemovePokemon],
+    [],
   );
 
   useEffect(() => {

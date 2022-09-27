@@ -15,7 +15,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { GiBroadsword, GiHealthNormal } from 'react-icons/gi';
 
 import IPokemon from '../../../@Types/IPokemon';
-import { usePokemons } from '../../../Hooks/usePokemons';
+import usePokemons from '../../../Hooks/usePokemons';
 
 interface IProps {
   name: string;
