@@ -13,7 +13,7 @@
 
 - [x] Find a cool public API
   - [PokeAPI](https://pokeapi.co/docs/v2)
-- [ ] Setup front-end
+- [x] Setup front-end
   - [x] React
   - [x] Code pattern
   - [x] Chakra
@@ -25,10 +25,13 @@
 - [x] Setup API hook
 - [x] List items
 - [x] Refresh table
-- [ ] Table item collapse
+- [x] Table item collapse
 - [ ] Review
-- [ ] Wait for back-end
 - [ ] Remove item
+- [ ] Handle API errors
+- [ ] Toast errors
+- [ ] Invalid accordion render
+- [ ] Filter/order table
 
 ## Devops flow
 
