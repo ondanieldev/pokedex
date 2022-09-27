@@ -42,5 +42,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/pokedex/backend
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            nvm use --lts
             yarn install
             yarn pm2 restart ecosystem.config.js
