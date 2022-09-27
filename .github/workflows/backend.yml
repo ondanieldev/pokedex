@@ -3,6 +3,9 @@ name: CI
 on:
   push:
     branches: [master]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend.yaml"
 
 jobs:
   build:
@@ -15,6 +18,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+
+      - name: Go to backend folder
+        run: cd backend
 
       - name: Install dependencies
         run: yarn install
@@ -32,8 +38,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
-          source: '.,!node_modules'
-          target: 'pokedex'
+          source: ".,!node_modules"
+          target: "pokedex"
 
       - name: Run production scripts
         uses: appleboy/ssh-action@master
