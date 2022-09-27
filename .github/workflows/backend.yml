@@ -12,9 +12,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+        uses: dcodeIO/setup-node-nvm@master
         with:
-          node-version: 16.x
+          node-version: lts/*
 
       - name: Setup backend
         run: |
@@ -42,6 +42,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/pokedex/backend
-            nvm use --lts
             yarn install
             yarn pm2 restart ecosystem.config.js
