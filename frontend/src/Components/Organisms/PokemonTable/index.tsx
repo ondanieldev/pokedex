@@ -69,11 +69,17 @@ const PokemonTable: React.FC = () => {
 
   const handleFilter = useCallback(
     (name: string) => {
+      setPage(1);
       setFilter(name);
       handleIndexPokemons({});
     },
     [handleIndexPokemons],
   );
+
+  const handleRefresh = useCallback(() => {
+    setPage(1);
+    handleIndexPokemons({});
+  }, [handleIndexPokemons]);
 
   const rows = useMemo<ITableRow[]>(
     () =>
@@ -119,7 +125,7 @@ const PokemonTable: React.FC = () => {
       setPage={setPage}
       total={total}
       isLoading={isLoading}
-      onRefresh={() => handleIndexPokemons({})}
+      onRefresh={handleRefresh}
       onSearch={name => handleFilter(name)}
       renderAccordion={handleRenderAccordion}
       paginationStrategy={paginateInternally ? 'internal' : 'external'}
