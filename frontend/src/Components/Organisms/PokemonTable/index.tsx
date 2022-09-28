@@ -44,7 +44,7 @@ const PokemonTable: React.FC = () => {
           );
           if (filter) {
             pokemons = pokemons.filter(pokemon =>
-              pokemon.name.includes(filter),
+              pokemon.name.toLowerCase().includes(filter.toLowerCase()),
             );
           }
           const total = filter
